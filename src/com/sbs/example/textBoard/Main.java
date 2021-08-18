@@ -19,6 +19,9 @@ public class Main {
 				break;
 			}
 			
+			else if(cmd.equals("list")) {
+				
+			}
 		}
 
 	}
