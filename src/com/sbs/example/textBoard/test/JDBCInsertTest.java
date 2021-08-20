@@ -1,4 +1,4 @@
-// ctrl shift enter 정렬
+// ctrl + shift + f 정렬
 package com.sbs.example.textBoard.test;
 
 import java.sql.Connection;
