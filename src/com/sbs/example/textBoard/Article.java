@@ -8,7 +8,6 @@ public class Article extends Object {
 	public String body;
 	
 	public Article(int id, String regDate, String updateDate, String title, String body) {
-		super();
 		this.id = id;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
