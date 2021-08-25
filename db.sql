@@ -12,8 +12,8 @@ CREATE TABLE article(
 
 SELECT * FROM article;
 
-INSERT INTO article 
-SET regDate = NOW(),
-updateDate = NOW(), 
-title = CONCAT('제목', ROUND(RAND()*10)), 
-`body` = CONCAT('내용', ROUND(RAND()*10));
+-- INSERT INTO article 
+-- SET regDate = NOW(),
+-- updateDate = NOW(), 
+-- title = CONCAT('제목', ROUND(RAND()*10)), 
+-- `body` = CONCAT('내용', ROUND(RAND()*10));
