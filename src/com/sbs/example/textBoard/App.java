@@ -17,6 +17,38 @@ public class App {
 			while (true) {
 				System.out.printf("명령어를 입력해주세요) ");
 				String cmd = sc.nextLine().trim();
+				
+				// DB 연결 시작
+				Connection conn = null;
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+				} catch (ClassNotFoundException e1) {
+					System.err.println("예외 : MySQL 드라이버 클래스가 없습니다.");
+					System.out.println("프로그램을 종료합니다.");
+					break;
+				}
+				
+				String url = "jdbc:mysql://127.0.0.1:3306/text_board?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
+
+				try {
+					conn = DriverManager.getConnection(url, "root", "");
+				} catch (SQLException e1) {
+					System.err.println("예외 : DB에 연결할 수 없습니다.");
+					System.out.println("프로그램을 종료합니다.");
+					break;
+				} finally { //try가 실행되든 catch가 연결되든 무조건 실행해서 꺼줘야 됨.
+					try {
+						if (conn != null && !conn.isClosed()) {
+							conn.close();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				System.out.println("연결 성공!");
+				
+				// DB 연결 끝
 
 				if (cmd.equals("exit")) {
 					System.out.println("프로그램을 종료합니다.");
@@ -29,16 +61,12 @@ public class App {
 					String title = sc.nextLine();
 					System.out.printf("내용 : ");
 					String body = sc.nextLine();
+					
+					// SecSql sql = new SecSql();
 
-					Connection conn = null;
 					PreparedStatement pstat = null;
 
 					try {
-						Class.forName("com.mysql.jdbc.Driver");
-						String url = "jdbc:mysql://127.0.0.1:3306/text_board?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-
-						conn = DriverManager.getConnection(url, "root", "");
-						System.out.println("연결 성공!");
 
 						String sql = "INSERT INTO article";
 						sql += " SET regDate = NOW()";
@@ -51,18 +79,9 @@ public class App {
 
 						System.out.println("affectedRows : " + affectedRows);
 
-					} catch (ClassNotFoundException e) {
-						System.out.println("드라이버 로딩 실패");
 					} catch (SQLException e) {
 						System.out.println("에러: " + e);
 					} finally {
-						try {
-							if (conn != null && !conn.isClosed()) {
-								conn.close();
-							}
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
 						try {
 							if (pstat != null && !pstat.isClosed()) {
 								pstat.close();
@@ -83,15 +102,9 @@ public class App {
 					System.out.printf("새 내용 : ");
 					String body = sc.nextLine();
 
-					Connection conn = null;
 					PreparedStatement pstat = null;
 
 					try {
-						Class.forName("com.mysql.jdbc.Driver");
-						String url = "jdbc:mysql://127.0.0.1:3306/text_board?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-
-						conn = DriverManager.getConnection(url, "root", "");
-						System.out.println("연결 성공!");
 
 						String sql = "UPDATE article";
 						sql += " SET updateDate = NOW()";
@@ -104,18 +117,9 @@ public class App {
 
 						System.out.println("affectedRows : " + affectedRows);
 
-					} catch (ClassNotFoundException e) {
-						System.out.println("드라이버 로딩 실패");
 					} catch (SQLException e) {
 						System.out.println("에러: " + e);
 					} finally {
-						try {
-							if (conn != null && !conn.isClosed()) {
-								conn.close();
-							}
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
 						try {
 							if (pstat != null && !pstat.isClosed()) {
 								pstat.close();
@@ -131,16 +135,10 @@ public class App {
 				else if (cmd.equals("list")) {
 					List<Article> articles = new ArrayList<>();
 
-					Connection conn = null;
 					PreparedStatement pstat = null;
 					ResultSet rs = null; // sql 질의에 의해 생성된 테이블을 저장하는 객체
 
 					try {
-						Class.forName("com.mysql.jdbc.Driver");
-						String url = "jdbc:mysql://127.0.0.1:3306/text_board?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-
-						conn = DriverManager.getConnection(url, "root", "");
-						System.out.println("연결 성공!");
 
 						String sql = "SELECT *";
 						sql += " FROM article";
@@ -162,8 +160,6 @@ public class App {
 							articles.add(article);
 						}
 
-					} catch (ClassNotFoundException e) {
-						System.out.println("드라이버 로딩 실패");
 					} catch (SQLException e) {
 						System.out.println("에러: " + e);
 					} finally { // 먼저 만들어 진 것을 나중에 꺼주는 것이 좋다
