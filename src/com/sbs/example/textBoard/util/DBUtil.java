@@ -1,6 +1,5 @@
 package com.sbs.example.textBoard.util;
 
-<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -177,8 +176,3 @@ public class DBUtil {
 		return update(dbConn, sql);
 	}
 }
-=======
-public class DBUtil {
-
-}
->>>>>>> 0b940c44091e34e7971bb12df9ba9c36f0d66693
