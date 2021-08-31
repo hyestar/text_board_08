@@ -1,6 +1,5 @@
 package com.sbs.example.textBoard.util;
 
-<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -70,8 +69,3 @@ public class SecSql {
 		return new SecSql().append(sql);
 	}
 }
-=======
-public class SecSql {
-
-}
->>>>>>> 0b940c44091e34e7971bb12df9ba9c36f0d66693
