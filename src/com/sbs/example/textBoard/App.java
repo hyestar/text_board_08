@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.sbs.example.textBoard.exception.SQLErrorException;
 import com.sbs.example.textBoard.util.DBUtil;
 import com.sbs.example.textBoard.util.SecSql;
 
@@ -22,7 +23,7 @@ public class App {
 			// DB 연결 시작
 			Connection conn = null;
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
+				Class.forName("com.mysql.cj.jdbc.Driver");
 			} catch (ClassNotFoundException e1) {
 				System.err.println("예외 : MySQL 드라이버 클래스가 없습니다.");
 				System.out.println("프로그램을 종료합니다.");
@@ -57,7 +58,7 @@ public class App {
 
 	private int doAction(Connection conn, Scanner sc, String cmd) {
 
-		if (cmd.equals("`add`")) {
+		if (cmd.equals("add")) {
 			System.out.printf("제목 : ");
 			String title = sc.nextLine();
 			System.out.printf("내용 : ");
@@ -74,6 +75,30 @@ public class App {
 			int id = DBUtil.insert(conn, sql);
 
 			System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
+
+		} else if (cmd.equals("delete")) {
+			int id = Integer.parseInt(cmd.split(" ")[2]);
+
+			System.out.printf("== %d번 게시글 삭제 ==\n", id);
+
+			SecSql sql = new SecSql();
+			sql.append("SELECT COUNT(*) AS cnt");
+			sql.append("FROM article");
+			sql.append("WHERE id = ?", id);
+			int articlesCount = DBUtil.selectRowIntValue(conn, sql);
+
+			if (articlesCount == 0) {
+				System.out.printf("%d번 게시글은 존재하지 않습니다.\n", id);
+				return 0;
+			}
+
+			sql = new SecSql();
+			sql.append("DELETE FROM article");
+			sql.append("WHERE id = ?", id);
+
+			DBUtil.delete(conn, sql);
+
+			System.out.printf("%d번 게시글이 삭제되었습니다.\n", id);
 
 		} else if (cmd.startsWith("article modify")) {
 			int id = Integer.parseInt(cmd.split(" ")[2]);
