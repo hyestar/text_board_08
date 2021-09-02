@@ -56,8 +56,85 @@ public class App {
 	}
 
 	private int doAction(Connection conn, Scanner sc, String cmd) {
+		if (cmd.equals("member join")) {
+			String loginId;
+			String loginPw;
+			String loginPwConfirm;
+			String name;
 
-		if (cmd.equals("add")) {
+			System.out.println("== 회원가입 ==");
+			// 로그인 아이디 입력
+			while (true) {
+				System.out.printf("로그인 아이디 : ");
+				loginId = sc.nextLine().trim();
+
+				if (loginId.length() == 0) {
+					System.out.println("로그인 아이디를 입력해주세요.");
+					continue;
+				}
+				break;
+
+			}
+			// 로그인 비밀번호 입력
+			while (true) {
+				System.out.printf("로그인 비밀번호 : ");
+				loginPw = sc.nextLine().trim();
+
+				if (loginPw.length() == 0) {
+					System.out.println("로그인 비밀번호를 입력해주세요.");
+				}
+				// 로그인 비밀번호 확인 입력
+				boolean loginPwConfirmIsSame = true;
+
+				while (true) {
+					System.out.printf("로그인 비밀번호 확인 : ");
+					loginPwConfirm = sc.nextLine().trim();
+
+					if (loginPwConfirm.length() == 0) {
+						System.out.println("로그인 비밀번호 확인을 입력해주세요.");
+						continue;
+					}
+					if (loginPw.equals(loginPwConfirm) == false) {
+						System.out.println("로그인 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+						loginPwConfirmIsSame = false;
+						break;
+					}
+
+					break;
+				}
+				// 로그인 비밀번호와 로그인 비밀번호 확인이 일치한다면 입력 완료.
+				if (loginPwConfirmIsSame) {
+					break;
+				}
+			}
+			// 이름 입력
+			while (true) {
+				System.out.printf("이름 : ");
+				name = sc.nextLine().trim();
+
+				if (name.length() == 0) {
+					System.out.println("이름을 입력해주세요.");
+					continue;
+				}
+				break;
+
+			}
+
+			SecSql sql = new SecSql();
+
+			sql.append("INSERT INTO `member`");
+			sql.append("SET regDate = NOW()");
+			sql.append(", updateDate = NOW()");
+			sql.append(", loginId = ?", loginId);
+			sql.append(", loginPw = ?", loginPw);
+			sql.append(", `name` = ?", name);
+
+			int id = DBUtil.insert(conn, sql);
+
+			System.out.printf("%s님 환영합니다.\n", name);
+		}
+
+		else if (cmd.equals("add")) {
 			System.out.printf("제목 : ");
 			String title = sc.nextLine();
 			System.out.printf("내용 : ");
@@ -99,7 +176,7 @@ public class App {
 
 			System.out.printf("%d번 게시글이 삭제되었습니다.\n", id);
 
-		}  else if (cmd.startsWith("article detail ")) {
+		} else if (cmd.startsWith("article detail ")) {
 			int id = Integer.parseInt(cmd.split(" ")[2]);
 
 			System.out.printf("== %d번 게시글 상세보기 ==\n", id);
@@ -122,7 +199,7 @@ public class App {
 			System.out.printf("수정날짜 : %s\n", article.updateDate);
 			System.out.printf("제목 : %s\n", article.title);
 			System.out.printf("내용 : %s\n", article.body);
-			
+
 		} else if (cmd.startsWith("article modify")) {
 			int id = Integer.parseInt(cmd.split(" ")[2]);
 			System.out.printf("== %d번 게시글 수정 ==\n", id);

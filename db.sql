@@ -27,4 +27,6 @@ CREATE TABLE `member` (
     loginId CHAR(20) NOT NULL,
     loginPw CHAR(100) NOT NULL,
     `name` CHAR(200) NOT NULL
-)
+);
+
+SELECT * FROM `member`;
