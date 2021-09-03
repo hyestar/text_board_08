@@ -6,18 +6,7 @@ import java.util.Scanner;
 import com.sbs.example.textBoard.util.DBUtil;
 import com.sbs.example.textBoard.util.SecSql;
 
-public class MemberController {
-	
-	private Connection conn;
-	private Scanner sc;
-	
-	public void setConn(Connection conn) {
-		this.conn = conn;
-	}
-
-	public void setScanner(Scanner sc) {
-		this.sc = sc;
-	}
+public class MemberController extends Controller {
 	
 	public void join (String cmd) {
 		String loginId;
