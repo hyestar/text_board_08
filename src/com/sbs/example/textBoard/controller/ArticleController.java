@@ -1,15 +1,11 @@
 package com.sbs.example.textBoard.controller;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import com.sbs.example.textBoard.Article;
 import com.sbs.example.textBoard.service.ArticleService;
-import com.sbs.example.textBoard.util.DBUtil;
-import com.sbs.example.textBoard.util.SecSql;
 
 public class ArticleController extends Controller {
 	
@@ -75,31 +71,15 @@ public class ArticleController extends Controller {
 		System.out.printf("새 내용 : ");
 		String body = sc.nextLine();
 
-		SecSql sql = new SecSql();
-
-		sql.append("UPDATE article");
-		sql.append("SET updateDate = NOW()");
-		sql.append(", title = ?", title);
-		sql.append(", `body` = ?", body);
-		sql.append(" WHERE id = ?", id);
-
-		DBUtil.update(conn, sql);
+		articleService.update(id, title, body);
+		
 		System.out.printf("%d번 게시글이 수정되었습니다.\n", id);
 
 	}
 	public void list(String cmd) {
-		List<Article> articles = new ArrayList<>();
-		SecSql sql = new SecSql();
-
-		sql.append("SELECT *");
-		sql.append("FROM article");
-		sql.append("ORDER BY id DESC");
-
-		List<Map<String, Object>> articlesListMap = DBUtil.selectRows(conn, sql);
-
-		for (Map<String, Object> articleMap : articlesListMap) {
-			articles.add(new Article(articleMap));
-		}
+		
+		List<Article> articles = articleService.getArticles();
+		
 		if (articles.size() == 0) {
 			System.out.println("게시물이 존재하지 않습니다.");
 			return;

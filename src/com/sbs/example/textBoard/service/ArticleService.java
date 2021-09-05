@@ -1,6 +1,7 @@
 package com.sbs.example.textBoard.service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.sbs.example.textBoard.Article;
 import com.sbs.example.textBoard.dao.ArticleDao;
@@ -33,6 +34,14 @@ public class ArticleService {
 	public Article getArticleById(int id) {
 		
 		return articleDao.getArticleById(id);
+	}
+	
+	public void update(int id, String title, String body) {
+		articleDao.update(id,title,body);
+	}
+
+	public List<Article> getArticles() {
+		return articleDao.getArticles();
 	}
 
 }
