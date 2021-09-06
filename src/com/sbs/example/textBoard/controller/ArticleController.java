@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
 
-import com.sbs.example.textBoard.Article;
+import com.sbs.example.textBoard.dto.Article;
 import com.sbs.example.textBoard.service.ArticleService;
 
 public class ArticleController extends Controller {

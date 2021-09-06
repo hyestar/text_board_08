@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sbs.example.textBoard.Article;
+import com.sbs.example.textBoard.dto.Article;
 import com.sbs.example.textBoard.util.DBUtil;
 import com.sbs.example.textBoard.util.SecSql;
 

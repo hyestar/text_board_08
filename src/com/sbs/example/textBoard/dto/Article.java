@@ -1,4 +1,4 @@
-package com.sbs.example.textBoard;
+package com.sbs.example.textBoard.dto;
 
 import java.time.LocalDateTime;
 import java.util.Map;
