@@ -1,8 +1,8 @@
 package com.sbs.example.textBoard.service;
 
-import java.sql.Connection;
 import java.util.List;
 
+import com.sbs.example.textBoard.Container;
 import com.sbs.example.textBoard.dao.ArticleDao;
 import com.sbs.example.textBoard.dto.Article;
 
@@ -10,14 +10,14 @@ public class ArticleService {
 
 	private ArticleDao articleDao;
 
-	public ArticleService(Connection conn) {
+	public ArticleService() {
 		
-		articleDao = new ArticleDao(conn);
+		articleDao = Container.articleDao;
 	}
 	
 	public int add(String title, String body) {
 
-		return articleDao.add(title,body);
+		return articleDao.add(title, body);
 	}
 
 	public boolean articleExists(int id) {
@@ -37,7 +37,7 @@ public class ArticleService {
 	}
 	
 	public void update(int id, String title, String body) {
-		articleDao.update(id,title,body);
+		articleDao.update(id, title, body);
 	}
 
 	public List<Article> getArticles() {

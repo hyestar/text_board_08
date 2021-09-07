@@ -54,9 +54,9 @@ public class App {
 
 	private int action(Connection conn, Scanner sc, String cmd) {
 
-		MemberController memberController = new MemberController(conn, sc);
+		MemberController memberController = Container.memberController;
 		
-		ArticleController articleController = new ArticleController(conn, sc);
+		ArticleController articleController = Container.articleController;
 
 		if (cmd.equals("member join")) {
 			memberController.join(cmd);
