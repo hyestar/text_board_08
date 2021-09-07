@@ -10,11 +10,12 @@ import com.sbs.example.textBoard.controller.MemberController;
 
 public class App {
 	public void run() {
-		Scanner sc = new Scanner(System.in);
+		Container.sc = new Scanner(System.in);
+		Container.init();
 
 		while (true) {
 			System.out.printf("명령어를 입력해주세요) ");
-			String cmd = sc.nextLine().trim();
+			String cmd = Container.sc.nextLine().trim();
 
 			// DB 연결 시작
 			Connection conn = null;
@@ -30,7 +31,10 @@ public class App {
 
 			try {
 				conn = DriverManager.getConnection(url, "root", "");
-				int actionResult = action(conn, sc, cmd);
+				Container.conn = conn;
+				
+				int actionResult = action(cmd);
+				
 				if (actionResult == -1) {
 					break;
 				}
@@ -49,18 +53,18 @@ public class App {
 			}
 		}
 		// DB 연결 끝
-		sc.close();
+		Container.sc.close();
 	}
 
-	private int action(Connection conn, Scanner sc, String cmd) {
+	private int action(String cmd) {
 
 		MemberController memberController = Container.memberController;
-		
+
 		ArticleController articleController = Container.articleController;
 
 		if (cmd.equals("member join")) {
 			memberController.join(cmd);
-		} else if(cmd.equals("member login")) {
+		} else if (cmd.equals("member login")) {
 			memberController.login(cmd);
 		} else if (cmd.equals("add")) {
 			articleController.add(cmd);

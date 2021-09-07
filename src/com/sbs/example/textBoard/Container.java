@@ -25,13 +25,13 @@ public class Container {
 	public static Session session;
 
 	public static Scanner sc;
+	public static Connection conn;
 
-	public static void init(Connection conn, Scanner sc) {
-		Container.sc = sc;
+	public static void init() {
 		session = new Session();
 
-		articleDao = new ArticleDao(conn);
-		memberDao = new MemberDao(conn);
+		articleDao = new ArticleDao();
+		memberDao = new MemberDao();
 
 		articleService = new ArticleService();
 		memberService = new MemberService();
